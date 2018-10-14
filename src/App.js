@@ -7,43 +7,25 @@ import authors from "./data";
 import Sidebar from "./Sidebar";
 import AuthorsList from "./AuthorsList";
 
+import { connect } from "react-redux";
+
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      authors: authors,
-      newAuthorId: 1
-    };
-    this.addAuthor = this.addAuthor.bind(this);
-  }
-
-  addAuthor() {
-    let newAuthor = {
-      first_name: "Author",
-      last_name: `${this.state.newAuthorId}`,
-      imageUrl:
-        "https://www.netz.de/images/2016-11-21-firefox-focus-header-58cfedd908c25_500_300.jpg",
-      books: [
-        {
-          title: "Anonymous book",
-          color: "mysterious color"
-        }
-      ]
-    };
-    this.setState({
-      authors: this.state.authors.concat(newAuthor),
-      newAuthorId: this.state.newAuthorId + 1
-    });
+    // this.state = {  ** since we have a central state, we do not need this any more **
+    //   authors: authors,
+    //   newAuthorId: 1
+    // };
   }
   render() {
     return (
       <div id="app" className="container-fluid">
         <div className="row">
           <div className="col-2">
-            <Sidebar addAuthorHandler={this.addAuthor} />
+            <Sidebar />
           </div>
           <div className="content col-10">
-            <AuthorsList authors={this.state.authors} />
+            <AuthorsList authors={this.props.auths} />
           </div>
         </div>
       </div>
@@ -51,4 +33,11 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    auths: state.authors,
+    newAuthId: state.newAuthorId
+  };
+};
+
+export default connect(mapStateToProps)(App);
