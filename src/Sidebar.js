@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+
 import { connect } from "react-redux";
+import * as actionCreators from "./actions";
 
 class Sidebar extends Component {
   render() {
@@ -32,13 +34,18 @@ class Sidebar extends Component {
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    newAuthId: state.newAuthorId
+  };
+};
 const mapDispatchToProps = dispatch => {
   return {
-    onAddAuthor: author => dispatch({ type: "ADD_AUTHOR", payload: author })
+    onAddAuthor: author => dispatch(actionCreators.add_author(author))
   };
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Sidebar);
